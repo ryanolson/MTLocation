@@ -33,11 +33,11 @@
 	CGRect imageViewFrame_;
 
 	// the currently displayed sub-view
-	UIView *activeSubview_;
+	__unsafe_unretained UIView *activeSubview_;
 
 	BOOL headingEnabled_;
     
-    id<MTLocateMeButtonDelegate> delegate_;
+    __unsafe_unretained id<MTLocateMeButtonDelegate> delegate_;
 }
 
 @property (nonatomic, assign) MTUserTrackingMode trackingMode;

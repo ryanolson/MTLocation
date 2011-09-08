@@ -20,7 +20,7 @@
 @implementation UIBarButtonItem (MTLocation)
 
 + (UIBarButtonItem *)userTrackingBarButtonItemForMapView:(MKMapView *)mapView {
-    return [[[MTLocateMeBarButtonItem alloc] initWithMapView:mapView] autorelease];
+    return [[MTLocateMeBarButtonItem alloc] initWithMapView:mapView];
 }
 
 @end

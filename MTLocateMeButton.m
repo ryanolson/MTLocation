@@ -131,6 +131,7 @@
     return self;
 }
 
+#ifdef ARC_TURNED_OFF
 - (void)dealloc {
     delegate_ = nil;
     [activityIndicator_ release], activityIndicator_ = nil;
@@ -139,6 +140,7 @@
     
     [super dealloc];
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -173,7 +175,7 @@
             
 			// animate currently visible subview to a smaller frame
 			// when finished, animate currently invisible subview to big frame
-			[UIView beginAnimations:@"AnimateLocationStatusShrink" context:(void *)[NSNumber numberWithInt:trackingMode]];
+			[UIView beginAnimations:@"AnimateLocationStatusShrink" context:(__bridge_retained void *)[NSNumber numberWithInt:trackingMode]];
 			[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 			[UIView setAnimationDuration:kShrinkAnimationDuration];
 			[UIView setAnimationDelegate:self];

@@ -48,7 +48,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (id)initWithMapView:(MKMapView *)mapView {
-    if ((self = [self initWithTrackingMode:MTUserTrackingModeNone startListening:NO])) {
+    if ((self = [self initWithTrackingMode:MTUserTrackingModeNone startListening:YES])) {
         // use MTLocationmanager as delegate, and set it's mapView
         self.delegate = [MTLocationManager sharedInstance];
         [MTLocationManager sharedInstance].mapView = mapView;
@@ -86,6 +86,7 @@
 	return [self initWithTrackingMode:MTUserTrackingModeNone];
 }
 
+#ifdef ARC_TURNED_OFF
 - (void)dealloc {
     // end listening to location update notifications
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kMTLocationManagerDidUpdateToLocationFromLocation object:nil];
@@ -97,6 +98,7 @@
 
 	[super dealloc];
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -

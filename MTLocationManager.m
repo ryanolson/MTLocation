@@ -41,12 +41,14 @@
     return self;
 }
 
+#ifdef ARC_TURNED_OFF
 - (void)dealloc {
     [locationManager_ release], locationManager_ = nil;
 	[mapView_ release], mapView_ = nil;
 
     [super dealloc];
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
@@ -74,12 +76,15 @@
 
 - (void)setMapView:(MKMapView *)mapView {
 	if(mapView != mapView_) {
+#ifdef ARC_TURNED_OFF
 		[mapView_ release];
 		mapView_ = [mapView retain];
+#endif
+        mapView_ = mapView;
 	}
 
 	// detect taps on the map-view
-	MTTouchesMovedGestureRecognizer * tapInterceptor = [[[MTTouchesMovedGestureRecognizer alloc] init] autorelease];
+	MTTouchesMovedGestureRecognizer * tapInterceptor = [[MTTouchesMovedGestureRecognizer alloc] init];
 	// safe self for block
 	__block __typeof__(self) blockSelf = self;
 
@@ -96,6 +101,7 @@
 		// Tell LocateMeBarButtonItem to update it's state
 		[[NSNotificationCenter defaultCenter] postNotificationName:kMTLocationManagerDidStopUpdatingHeading object:blockSelf userInfo:nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:kMTLocationManagerDidStopUpdatingServices object:blockSelf userInfo:nil];
+        self.mapView.showsUserLocation = NO;
 	};
 
 	[self.mapView addGestureRecognizer:tapInterceptor];
@@ -106,7 +112,6 @@
 #pragma mark -
 #pragma mark locationManager Delegate
 ////////////////////////////////////////////////////////////////////////
-
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys: manager, @"locationManager",
@@ -189,6 +194,7 @@
             // if we are currently idle, stop updates
         case MTUserTrackingModeNone:
             [self stopAllServices];
+            self.mapView.showsUserLocation = NO;
             break;
 
             // if we are currently searching, start updating location
@@ -196,6 +202,7 @@
             //NSLog(@"Start updating location");
             [self.locationManager startUpdatingLocation];
             [self.locationManager stopUpdatingHeading];
+            self.mapView.showsUserLocation = YES;
             break;
 
             // if we are already receiving updates
@@ -203,6 +210,7 @@
             //NSLog(@"Start updating location");
             [self.locationManager startUpdatingLocation];
             [self.locationManager stopUpdatingHeading];
+            self.mapView.showsUserLocation = YES;
             break;
 
             // if we are currently receiving heading updates, start updating heading
@@ -210,6 +218,7 @@
             //NSLog(@"start updating heading");
             [self.locationManager startUpdatingLocation];
             [self.locationManager startUpdatingHeading];
+            self.mapView.showsUserLocation = YES;
             break;
 
     }
@@ -245,10 +254,13 @@ static MTLocationManager *sharedMTLocationManager = nil;
 	return nil;
 }
 
+
 - (id)copyWithZone:(NSZone *)zone {
 	return self;
 }
 
+
+#ifdef ARC_TURNED_OFF
 - (id)retain {
 	return self;
 }
@@ -263,5 +275,6 @@ static MTLocationManager *sharedMTLocationManager = nil;
 - (id)autorelease {
 	return self;
 }
+#endif
 
 @end
