@@ -102,6 +102,7 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:kMTLocationManagerDidStopUpdatingHeading object:blockSelf userInfo:nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:kMTLocationManagerDidStopUpdatingServices object:blockSelf userInfo:nil];
         self.mapView.showsUserLocation = NO;
+        [self.mapView setUserTrackingMode:MKUserTrackingModeNone animated:YES];
 	};
 
 	[self.mapView addGestureRecognizer:tapInterceptor];
@@ -118,7 +119,7 @@
 							  newLocation, @"newLocation",
 							  oldLocation, @"oldLocation", nil];
     
-    // move heading angle overlay to new coordinate
+    // update mapview
     [self.mapView moveHeadingAngleViewToCoordinate:newLocation.coordinate];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMTLocationManagerDidUpdateToLocationFromLocation object:self userInfo:userInfo];
@@ -195,6 +196,7 @@
         case MTUserTrackingModeNone:
             [self stopAllServices];
             self.mapView.showsUserLocation = NO;
+            [self.mapView setUserTrackingMode:MKUserTrackingModeNone animated:YES];
             break;
 
             // if we are currently searching, start updating location
@@ -203,6 +205,7 @@
             [self.locationManager startUpdatingLocation];
             [self.locationManager stopUpdatingHeading];
             self.mapView.showsUserLocation = YES;
+            [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
             break;
 
             // if we are already receiving updates
@@ -211,6 +214,7 @@
             [self.locationManager startUpdatingLocation];
             [self.locationManager stopUpdatingHeading];
             self.mapView.showsUserLocation = YES;
+            [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
             break;
 
             // if we are currently receiving heading updates, start updating heading
@@ -219,6 +223,7 @@
             [self.locationManager startUpdatingLocation];
             [self.locationManager startUpdatingHeading];
             self.mapView.showsUserLocation = YES;
+            [self.mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
             break;
 
     }

@@ -27,6 +27,7 @@
 	MKMapView *mapView_;
     // configure if heading calibration should be displayed
     BOOL displayHeadingCalibration_;
+    
 }
 
 

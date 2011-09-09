@@ -48,7 +48,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (id)initWithMapView:(MKMapView *)mapView {
-    if ((self = [self initWithTrackingMode:MTUserTrackingModeNone startListening:YES])) {
+    if ((self = [self initWithTrackingMode:MTUserTrackingModeNone startListening:NO])) {
         // use MTLocationmanager as delegate, and set it's mapView
         self.delegate = [MTLocationManager sharedInstance];
         [MTLocationManager sharedInstance].mapView = mapView;
@@ -211,6 +211,7 @@
 
 - (void)locationManagerDidFail:(NSNotification *)notification {
     [self setTrackingMode:MTUserTrackingModeNone animated:YES];
+    [[MTLocationManager sharedInstance].mapView setUserTrackingMode:MKUserTrackingModeNone animated:YES];
 }
 
 - (void)locationManagerDidStopUpdatingServices:(NSNotification *)notification {

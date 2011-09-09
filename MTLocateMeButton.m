@@ -187,6 +187,8 @@
 		} else {
 			self.trackingMode = trackingMode;
 		}
+        
+        [self.delegate locateMeButton:self didChangeTrackingMode:trackingMode];
 	}
 }
 

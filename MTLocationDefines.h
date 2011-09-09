@@ -33,6 +33,8 @@ typedef enum {
 #define MTLocationStatusSearching                   MTUserTrackingModeSearching
 #define kMTLocationStatusCount                      kMTUserTrackingModeCount
 
+// defined span in ns and ew directions for map region while following
+#define kMTLocationMaximumZoomWhileFollowing 600.0
 
 // defined threshold for a location that counts as a location update
 #define kMTLocationMinimumHorizontalAccuracy 1000

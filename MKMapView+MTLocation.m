@@ -89,14 +89,13 @@ static char headingAngleViewKey;
 
 - (void)moveHeadingAngleViewToCoordinate:(CLLocationCoordinate2D)coordinate {
     
-    [self setCenterCoordinate:coordinate animated:YES];
-    
     CGPoint center = [self convertCoordinate:coordinate toPointToView:self.superview];
     id headingAngleView = objc_getAssociatedObject(self, &headingAngleViewKey);
     
     center.y -= [headingAngleView frame].size.height/2 + 8;
     [headingAngleView setCenter:center];
 }
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark -
